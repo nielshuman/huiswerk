@@ -1,0 +1,25 @@
+Prompt:
+text = f'''a = ${a}
+b = {b}
+epsillon = ${epsilon}
+I_ext = ${I_ext}'''
+ax.text(0.05, 0.95, text, transform=ax.transAxes, fontsize=10,
+        verticalalignment='top', bbox=props)
+Format this nicely for use with matplotlib
+
+Answer:
+You’re very close — the main issue is mixing f-strings with LaTeX-style `$...$`. Also, for Matplotlib, it’s best to format each parameter cleanly and consistently.
+
+Here’s a nicely formatted version:
+
+```python
+text = (
+    rf"$a = {a}$" "\n"
+    rf"$b = {b}$" "\n"
+    rf"$\epsilon = {epsilon}$" "\n"
+    rf"$I_{{\mathrm{{ext}}}} = {I_ext}$"
+)
+
+ax.text(0.05, 0.95, text, transform=ax.transAxes,
+        fontsize=10, verticalalignment='top', bbox=props)
+```
