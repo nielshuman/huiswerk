@@ -1,18 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def Euler(model, initial, Tmax, dt):
-  steps = int(Tmax/dt)
-  x_traj = np.zeros(steps)
-  y_traj = np.zeros(steps)
-  x_traj[0], y_traj[0] = initial
-
-  for i in range(steps-1):
-    dx, dy = model(x_traj[i], y_traj[i])
-    x_traj[i+1] = x_traj[i] + dt * dx
-    y_traj[i+1] = y_traj[i] + dt * dy
-
-  return (x_traj, y_traj)
+# Model parameters
+a = 0.7
+b = 0.8
+epsilon = 0.08
+I_ext = 0.1
 
 def FHmodel(v, w):
     dv = v - (v**3)/3 - w + I_ext
@@ -25,11 +18,19 @@ def v_nullcline(v): # w(v) for dv/dt = 0
 def w_nullcline(v): # w(v) for dw/dt = 0
   return (v + a) / b
   
-# Model parameters
-a = 0.7
-b = 0.8
-epsilon = 0.08
-I_ext = 0.5
+
+def Euler(model, initial, Tmax, dt):
+  steps = int(Tmax/dt)
+  x_traj = np.zeros(steps)
+  y_traj = np.zeros(steps)
+  x_traj[0], y_traj[0] = initial
+
+  for i in range(steps-1):
+    dx, dy = model(x_traj[i], y_traj[i])
+    x_traj[i+1] = x_traj[i] + dt * dx
+    y_traj[i+1] = y_traj[i] + dt * dy
+
+  return (x_traj, y_traj)
 
 # for vector field
 v = np.linspace(-2, 2, 27)
@@ -74,4 +75,6 @@ plt.ylabel('w (recovery)')
 plt.title('FitzHugh-Nagumo')
 plt.legend()
 plt.grid(True)
-plt.show()
+# plt.show()
+plt.savefig('I_ext=0.1.png', bbox_inches='tight')
+
